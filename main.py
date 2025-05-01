@@ -31,6 +31,7 @@ PHRASES = {
 }
 
 user_requests = {}
+last_message_time = {}
 
 def send_to_telegram(chat_id, message):
     url = f"https://api.telegram.org/bot{BOT_TOKEN}/sendMessage"
@@ -95,33 +96,45 @@ def webhook():
         text = message.get("text", "").strip()
         now = datetime.now()
         if chat_id not in user_requests:
-            user_requests[chat_id] = {"count": 0, "blocked_until": None}
+            user_requests[chat_id] = {"count": 0, "blocked_until": None, "warned": False}
+        if chat_id in last_message_time and (now - last_message_time[chat_id]).total_seconds() < 1:
+            return "Spam ignored"
+        last_message_time[chat_id] = now
 
         if user_requests[chat_id]["blocked_until"] and now < user_requests[chat_id]["blocked_until"]:
-            send_to_telegram(chat_id, "تم حظرك مؤقتًا لمدة 12 ساعة بسبب كثرة الطلبات. حاول لاحقًا.")
+            send_to_telegram(chat_id, "تم حظرك مؤقتًا لمدة 6 ساعات بسبب كثرة الطلبات. حاول لاحقًا.")
             return "Blocked"
 
         if text in ["1", "١"]:
-            send_to_telegram(chat_id, "اختر الخدمة:\n٢ للحصول على كود ستيم\n٣ للحصول على كود روكو ستار")
+            send_to_telegram(chat_id, "مرحبًا بك ، أنا بوت الأكواد لمتجر شارك قيمينق 😀✋🏻\n للبدء اكتب الرقم 1\nاختر الخدمة:\n٢ للحصول على كود ستيم\n٣ للحصول على كود روكو ستار")
         elif text in ["2", "٢"]:
             send_to_telegram(chat_id, "هل الكود للعبة ريد ديد 1؟ اضغط 4\nهل الكود للعبة ريد ديد 2؟ اضغط 5")
         elif text in ["3", "٣"]:
             send_to_telegram(chat_id, "هل الكود للعبة ريد ديد 1؟ اضغط 6\nهل الكود للعبة ريد ديد 2؟ اضغط 7")
-        elif text in ["4", "5", "6", "7"]:
+        elif text in ["4", "٤", "5", "٥", "6", "٦", "7", "٧"]:
             user_requests[chat_id]["count"] += 1
+            if user_requests[chat_id]["count"] > 17 and not user_requests[chat_id]["warned"]:
+                send_to_telegram(chat_id, "تنبيه: تبقى لديك ٣ محاولات قبل الحظر المؤقت.")
+                user_requests[chat_id]["warned"] = True
             if user_requests[chat_id]["count"] > 20:
-                user_requests[chat_id]["blocked_until"] = now + timedelta(hours=12)
-                send_to_telegram(chat_id, "تم حظرك مؤقتًا لمدة 12 ساعة بسبب كثرة الطلبات. حاول لاحقًا.")
+                user_requests[chat_id]["blocked_until"] = now + timedelta(hours=6)
+                send_to_telegram(chat_id, "تم حظرك مؤقتًا لمدة 6 ساعات بسبب كثرة الطلبات. حاول لاحقًا.")
                 return "Blocked"
             mapping = {
                 "4": ("noreply@steampowered.com", 0, "ستيم للعبة ريد ديد 1"),
+                "٤": ("noreply@steampowered.com", 0, "ستيم للعبة ريد ديد 1"),
                 "5": ("noreply@steampowered.com", 1, "ستيم للعبة ريد ديد 2"),
+                "٥": ("noreply@steampowered.com", 1, "ستيم للعبة ريد ديد 2"),
                 "6": ("noreply@rockstargames.com", 0, "روكو ستار للعبة ريد ديد 1"),
+                "٦": ("noreply@rockstargames.com", 0, "روكو ستار للعبة ريد ديد 1"),
                 "7": ("noreply@rockstargames.com", 1, "روكو ستار للعبة ريد ديد 2"),
+                "٧": ("noreply@rockstargames.com", 1, "روكو ستار للعبة ريد ديد 2"),
             }
             source, email_index, desc = mapping[text]
             send_to_telegram(chat_id, f"جارٍ البحث عن كود {desc}...")
             threading.Thread(target=check_latest_code, args=(chat_id, source, email_index)).start()
+        else:
+            send_to_telegram(chat_id, "الادخال غير صحيح. الرجاء اختيار رقم :\n1 : القائمة الرئيسية\n2 : كود ستيم\n3 : كود روكو ستار")
     return "OK"
 
 if __name__ == "__main__":
