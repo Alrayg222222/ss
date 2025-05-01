@@ -52,7 +52,7 @@ def check_emails():
                 mail = imaplib.IMAP4_SSL(acc["imap_server"])
                 mail.login(acc["email"], acc["password"])
                 mail.select("inbox")
-                result, data = mail.search(None, "ALL")
+                result, data = mail.search(None, '(UNSEEN)')
                 if result != "OK":
                     continue
                 for num in data[0].split()[::-1]:
@@ -77,14 +77,19 @@ def check_emails():
                     if any(phrase in body for phrase in PHRASES):
                         code = extract_code_from_body(body)
                         if code:
+                            prefix = "الكود هو: "
+                            if "rockstargames" in sender:
+                                prefix = "كود روكو ستار هو: "
+                            elif "steampowered" in sender:
+                                prefix = "كود ستيم هو: "
                             for chat_id in active_chat_ids:
-                                send_to_telegram(chat_id, f"الكود هو: {code}")
+                                send_to_telegram(chat_id, f"{prefix}{code}")
                             active_chat_ids.clear()
                             break
                 mail.logout()
             except Exception as e:
                 print(f"خطأ في {acc['email']}: {str(e)}")
-        time.sleep(60)
+        time.sleep(10)
 
 def start_background_thread():
     thread = threading.Thread(target=check_emails)
