@@ -22,6 +22,11 @@ EMAILS = [
         "password": os.getenv("PASS2"),
         "imap_server": "imap.gmail.com",
     },
+     {
+        "email": os.getenv("EMAIL3"),
+        "password": os.getenv("PASS3"),
+        "imap_server": "imap.gmail.com",
+    },
 ]
 
 PHRASES = {
