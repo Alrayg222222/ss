@@ -131,10 +131,10 @@ def webhook():
                 send_to_telegram(chat_id, "تم حظرك مؤقتًا لمدة 6 ساعات بسبب كثرة الطلبات. حاول لاحقًا.")
                 return "Blocked"
             mapping = {
-                "4": ("noreply@steampowered.com", 0, "ستيم للعبة ريد ديد 1"),
-                "٤": ("noreply@steampowered.com", 0, "ستيم للعبة ريد ديد 1"),
-                "5": ("noreply@steampowered.com", 1, "ستيم للعبة ريد ديد 2"),
-                "٥": ("noreply@steampowered.com", 1, "ستيم للعبة ريد ديد 2"),
+              #  "4": ("noreply@steampowered.com", 0, "ستيم للعبة ريد ديد 1"),
+              #  "٤": ("noreply@steampowered.com", 0, "ستيم للعبة ريد ديد 1"),
+              #  "5": ("noreply@steampowered.com", 1, "ستيم للعبة ريد ديد 2"),
+               # "٥": ("noreply@steampowered.com", 1, "ستيم للعبة ريد ديد 2"),
                 "6": ("noreply@rockstargames.com", 0, "روكو ستار للعبة ريد ديد 1"),
                 "٦": ("noreply@rockstargames.com", 0, "روكو ستار للعبة ريد ديد 1"),
                 "7": ("noreply@rockstargames.com", 1, "روكو ستار للعبة ريد ديد 2"),
