@@ -137,8 +137,8 @@ def webhook():
                # "٥": ("noreply@steampowered.com", 1, "ستيم للعبة ريد ديد 2"),
                 "6": ("noreply@rockstargames.com", 0, "روكو ستار للعبة ريد ديد 1"),
                 "٦": ("noreply@rockstargames.com", 0, "روكو ستار للعبة ريد ديد 1"),
-                "7": ("noreply@rockstargames.com", 1, "روكو ستار للعبة ريد ديد 2"),
-                "٧": ("noreply@rockstargames.com", 1, "روكو ستار للعبة ريد ديد 2"),
+              #  "7": ("noreply@rockstargames.com", 1, "روكو ستار للعبة ريد ديد 2"),
+              #  "٧": ("noreply@rockstargames.com", 1, "روكو ستار للعبة ريد ديد 2"),
                 "9": ("noreply@rockstargames.com", 2, "روكو ستار للعبة قراند 4"),
                 "٩": ("noreply@rockstargames.com", 2, "روكو ستار للعبة قراند 4"),
             }
