@@ -139,8 +139,8 @@ def webhook():
                 "٦": ("noreply@rockstargames.com", 0, "روكو ستار للعبة ريد ديد 1"),
               #  "7": ("noreply@rockstargames.com", 1, "روكو ستار للعبة ريد ديد 2"),
               #  "٧": ("noreply@rockstargames.com", 1, "روكو ستار للعبة ريد ديد 2"),
-                "9": ("noreply@rockstargames.com", 2, "روكو ستار للعبة قراند 4"),
-                "٩": ("noreply@rockstargames.com", 2, "روكو ستار للعبة قراند 4"),
+             #   "9": ("noreply@rockstargames.com", 2, "روكو ستار للعبة قراند 4"),
+             #   "٩": ("noreply@rockstargames.com", 2, "روكو ستار للعبة قراند 4"),
             }
             source, email_index, desc = mapping[text]
             send_to_telegram(chat_id, f"جارٍ البحث عن كود {desc}...")
